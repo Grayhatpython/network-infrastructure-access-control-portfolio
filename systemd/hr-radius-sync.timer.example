@@ -1,0 +1,13 @@
+# Planned example only.
+
+[Unit]
+Description=Periodically process HR network policy changes
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=5min
+AccuracySec=10s
+Unit=hr-radius-sync.service
+
+[Install]
+WantedBy=timers.target

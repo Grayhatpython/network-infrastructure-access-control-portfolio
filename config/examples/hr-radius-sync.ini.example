@@ -1,0 +1,11 @@
+[oracle]
+user = RADIUS_SYNC
+password = <ORACLE_PASSWORD>
+dsn = <HR_DB_HOST>:1521/<SERVICE_NAME>
+
+[mysql]
+host = localhost
+port = 3306
+user = hr_sync
+password = <MYSQL_PASSWORD>
+database = radius

@@ -1,0 +1,32 @@
+# Secrets
+*.env
+*.secret
+*.key
+*.p12
+*.pfx
+*.jks
+*.cnf
+*.ini
+!*.cnf.example
+!*.ini.example
+
+# Certificates: keep only explicitly sanitized public examples
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs / generated configs
+*.log
+dhcpd.conf
+*.bak
+*.candidate

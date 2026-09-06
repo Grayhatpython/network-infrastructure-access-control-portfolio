@@ -1,0 +1,3 @@
+authoritative;
+ddns-update-style none;
+log-facility local7;

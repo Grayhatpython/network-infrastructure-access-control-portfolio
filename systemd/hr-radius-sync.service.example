@@ -1,0 +1,11 @@
+# Do not enable in the current WIP milestone.
+# Enable only after the event/state-machine workflow is fully verified.
+
+[Unit]
+Description=Detect and process Oracle HR network policy changes
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/sync-hr-to-radius.py

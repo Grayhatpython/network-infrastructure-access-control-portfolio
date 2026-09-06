@@ -1,0 +1,8 @@
+[Unit]
+Description=Generate ISC DHCP configuration from MySQL policy
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/sync-dhcp-from-db.py

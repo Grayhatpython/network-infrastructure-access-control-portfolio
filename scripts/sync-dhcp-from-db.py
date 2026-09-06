@@ -1,0 +1,669 @@
+#!/usr/bin/env python3
+
+# IPv4 주소와 네트워크 계산을 쉽게 해주는
+# Python 표준 라이브러리
+import ipaddress
+
+# 파일 교체 등의 OS 작업
+import os
+
+# 기존 설정파일 백업에 사용
+import shutil
+
+# mysql, dhcpd, systemctl 같은
+# 외부 프로그램 실행
+import subprocess
+
+# 안전하게 임시 파일 생성
+import tempfile
+
+# 파일 경로를 객체 형태로 다루기 위해 사용
+from pathlib import Path
+
+
+
+# MySQL 로그인 정보가 들어 있는 파일
+MYSQL_CONFIG = "/etc/dhcp-db-sync.cnf"
+
+
+# DB와 관계없는 DHCP 기본 설정 파일
+BASE_CONFIG = Path("/etc/dhcp/dhcpd.base.conf")
+
+
+# Python이 최종 생성할 실제 DHCP 설정파일
+TARGET_CONFIG = Path("/etc/dhcp/dhcpd.conf")
+
+
+# isc-dhcp-server의 실제 dhcpd 실행 파일
+DHCPD = "/usr/sbin/dhcpd"
+
+
+# systemctl 실행 파일
+SYSTEMCTL = "/usr/bin/systemctl"
+
+
+
+def mysql_query(sql):
+    """
+    MySQL에 SQL을 보내고 결과를 받아오는 함수.
+    """
+
+
+    # subprocess.run()을 이용해 Linux의 mysql 명령을 실행
+    result = subprocess.run(
+        [
+            "mysql",
+
+            # 아이디/비밀번호를 CLI에 직접 적지 않고
+            # 별도 설정파일에서 읽음
+            f"--defaults-extra-file={MYSQL_CONFIG}",
+
+            # 출력 형식을 스크립트가 읽기 쉽게 만듦
+            "--batch",
+
+            # 컬럼 제목을 출력하지 않음
+            "--skip-column-names",
+
+            # escape 처리를 최소화해서 원래 데이터 형태 유지
+            "--raw",
+
+            # 뒤의 문자열을 SQL로 실행
+            "-e",
+
+            sql,
+        ],
+
+        # mysql 명령이 실패하면 Python에서도
+        # Exception을 발생시킴
+        check=True,
+
+        # stdout을 bytes가 아닌 문자열로 받음
+        text=True,
+
+        # 터미널에 바로 출력하지 말고
+        # Python이 결과를 받아감
+        capture_output=True,
+    )
+
+
+    # SQL 결과를 저장할 리스트
+    rows = []
+
+
+    # mysql 결과는 줄 단위로 나오므로
+    # 한 줄씩 처리
+    for line in result.stdout.splitlines():
+
+        # 빈 줄은 무시
+        if line.strip():
+
+            # --batch 모드에서는 컬럼이 TAB으로 구분됨
+            rows.append(line.split("\t"))
+
+
+    return rows
+
+def merge_ip_ranges(ip_list):
+    """
+    연속된 IP들을 하나의 DHCP range로 묶는다.
+
+    예:
+
+    172.16.99.12
+    172.16.99.13
+    172.16.99.14
+    172.16.99.20
+    172.16.99.21
+
+    ↓
+
+    .12 ~ .14
+    .20 ~ .21
+    """
+
+
+    # IP가 하나도 없으면
+    if not ip_list:
+        return []
+
+
+    # 문자열 IP를 정수형 IPv4 객체로 변환 후 정렬
+    numbers = sorted(
+        int(ipaddress.IPv4Address(ip))
+        for ip in ip_list
+    )
+
+
+    # 최종 range 목록
+    ranges = []
+
+
+    # 첫 번째 IP를 시작점으로 지정
+    start = numbers[0]
+
+    # 바로 전 IP
+    previous = numbers[0]
+
+
+    # 두 번째 IP부터 순회
+    for current in numbers[1:]:
+
+
+        # 현재 IP가 이전 IP + 1이면
+        # 연속된 IP임
+        if current == previous + 1:
+
+            previous = current
+
+            continue
+
+
+        # 연속되지 않는 순간
+        # 지금까지의 구간을 저장
+        ranges.append(
+            (start, previous)
+        )
+
+
+        # 새로운 구간 시작
+        start = current
+
+        previous = current
+
+
+    # 마지막 구간 저장
+    ranges.append(
+        (start, previous)
+    )
+
+
+    return ranges
+
+def ipv4(number):
+    """
+    숫자형 IPv4 값을 사람이 읽는 IP 문자열로 변환.
+    """
+
+    return str(
+        ipaddress.IPv4Address(number)
+    )
+
+def generate_config():
+
+    # 기본 DHCP 설정파일 읽기
+    base = BASE_CONFIG.read_text()
+
+
+    # 활성화된 DHCP Scope들을 DB에서 가져옴
+    scopes = mysql_query(
+        """
+        SELECT
+            scope_id,
+            vlan_tag,
+            scope_name,
+            network_address,
+            subnet_mask,
+            broadcast_address,
+            gateway_address,
+            IFNULL(domain_name, ''),
+            IFNULL(dns_servers, ''),
+            default_lease_seconds,
+            max_lease_seconds
+
+        FROM radius.dhcp_scope
+
+        WHERE enabled = 1
+
+        ORDER BY vlan_tag;
+        """
+    )
+
+
+    # DYNAMIC 상태인 IP만 가져옴.
+    #
+    # RESERVED는 DHCP dynamic range에서 제외된다.
+    pool_rows = mysql_query(
+        """
+        SELECT
+            scope_id,
+            ip_address
+
+        FROM radius.dhcp_ip_pool
+
+        WHERE pool_state = 'DYNAMIC'
+
+        ORDER BY
+            scope_id,
+            INET_ATON(ip_address);
+        """
+    )
+
+
+    # 활성화된 Reservation 목록
+    reservation_rows = mysql_query(
+        """
+        SELECT
+            r.scope_id,
+            r.client_mac,
+            r.reserved_ip,
+            IFNULL(r.client_host, '')
+
+        FROM radius.dhcp_reservation AS r
+
+        INNER JOIN radius.dhcp_scope AS s
+                ON s.scope_id = r.scope_id
+
+        WHERE r.enabled = 1
+          AND s.enabled = 1
+
+        ORDER BY
+            r.scope_id,
+            INET_ATON(r.reserved_ip);
+        """
+    )
+
+    # Dictionary 생성
+    #
+    # 결과 예:
+    #
+    # {
+    #    1: [
+    #        '172.16.99.12',
+    #        '172.16.99.13'
+    #    ]
+    # }
+    pools = {}
+
+
+    for scope_id, ip_address in pool_rows:
+
+        scope_id = int(scope_id)
+
+
+        # scope_id가 처음 등장하면 빈 리스트 생성
+        pools.setdefault(
+            scope_id,
+            []
+        )
+
+
+        # 해당 Scope의 IP 목록에 추가
+        pools[scope_id].append(
+            ip_address
+        )
+
+    output = []
+
+
+    # 기존 Base 설정 추가
+    output.append(
+        base.rstrip()
+    )
+
+
+    output.append("")
+
+    output.append(
+        "# ==========================================="
+    )
+
+    output.append(
+        "# AUTO GENERATED FROM MYSQL"
+    )
+
+    output.append(
+        "# DO NOT EDIT THIS FILE MANUALLY"
+    )
+
+    output.append(
+        "# ==========================================="
+    )
+
+    output.append("")
+
+    for row in scopes:
+
+        (
+            scope_id,
+            vlan_tag,
+            scope_name,
+            network_address,
+            subnet_mask,
+            broadcast_address,
+            gateway_address,
+            domain_name,
+            dns_servers,
+            default_lease,
+            max_lease,
+        ) = row
+
+
+        scope_id = int(scope_id)
+
+
+        # Python 자체에서도 네트워크 형식 검증
+        network = ipaddress.IPv4Network(
+            f"{network_address}/{subnet_mask}",
+            strict=False
+        )
+
+
+        # Gateway도 IPv4인지 검증
+        gateway = ipaddress.IPv4Address(
+            gateway_address
+        )
+
+
+        # Gateway가 해당 subnet 내부가 아니면
+        # 설정 생성 중단
+        if gateway not in network:
+
+            raise ValueError(
+                f"Gateway {gateway} is not inside {network}"
+            )
+
+
+        output.append(
+            f"# VLAN {vlan_tag} - {scope_name}"
+        )
+
+
+        output.append(
+            f"subnet {network.network_address} "
+            f"netmask {network.netmask} {{"
+        )
+
+
+        # Default Gateway
+        output.append(
+            f"    option routers {gateway_address};"
+        )
+
+
+        # Subnet Mask
+        output.append(
+            f"    option subnet-mask {subnet_mask};"
+        )
+
+
+        # Broadcast Address
+        output.append(
+            f"    option broadcast-address "
+            f"{broadcast_address};"
+        )
+
+        if domain_name:
+
+            output.append(
+                f'    option domain-name "{domain_name}";'
+            )
+
+
+        if dns_servers:
+
+            # DB에는:
+            #
+            # 8.8.8.8,8.8.4.4
+            #
+            # 형태로 저장되어 있음.
+            dns_list = [
+                x.strip()
+                for x in dns_servers.split(",")
+                if x.strip()
+            ]
+
+
+            # 각각 실제 IPv4 주소인지 검사
+            for dns in dns_list:
+
+                ipaddress.IPv4Address(dns)
+
+
+            output.append(
+                "    option domain-name-servers "
+                + ", ".join(dns_list)
+                + ";"
+            )
+
+        output.append(
+            f"    default-lease-time {default_lease};"
+        )
+
+
+        output.append(
+            f"    max-lease-time {max_lease};"
+        )
+
+
+        output.append("")
+
+        # 해당 Scope의 DYNAMIC IP 목록
+        free_ips = pools.get(
+            scope_id,
+            []
+        )
+
+
+        # 연속된 IP들을 range로 묶음
+        for start, end in merge_ip_ranges(
+            free_ips
+        ):
+
+            output.append(
+                f"    range "
+                f"{ipv4(start)} "
+                f"{ipv4(end)};"
+            )
+
+
+        # subnet 블록 종료
+        output.append("}")
+
+        output.append("")
+
+    output.append(
+        "# ==========================================="
+    )
+
+    output.append(
+        "# STATIC DHCP RESERVATIONS"
+    )
+
+    output.append(
+        "# ==========================================="
+    )
+
+    output.append("")
+
+
+    for (
+        scope_id,
+        client_mac,
+        reserved_ip,
+        client_host
+    ) in reservation_rows:
+
+
+        # IP 주소가 정상인지 검증
+        ipaddress.IPv4Address(
+            reserved_ip
+        )
+
+
+        # MAC을 소문자로 통일
+        clean_mac = client_mac.lower()
+
+
+        # dhcpd의 host 이름으로 사용할 안전한 문자열
+        #
+        # 예:
+        #
+        # scope 1
+        # 00:0c:29:87:ce:67
+        #
+        # ↓
+        #
+        # v1_000c2987ce67
+        host_name = (
+            "v"
+            + str(scope_id)
+            + "_"
+            + clean_mac.replace(":", "")
+        )
+
+
+        output.append(
+            f"host {host_name} {{"
+        )
+
+
+        output.append(
+            f"    hardware ethernet {clean_mac};"
+        )
+
+
+        output.append(
+            f"    fixed-address {reserved_ip};"
+        )
+
+
+        output.append("}")
+
+        output.append("")
+
+    return "\n".join(output) + "\n"
+
+def main():
+
+    # DB를 읽어서 새로운 dhcpd.conf 내용을 생성
+    config = generate_config()
+
+
+    # 실제 dhcpd.conf가 있는 디렉터리
+    target_dir = TARGET_CONFIG.parent
+
+
+    # 안전한 임시 파일 생성
+    fd, temp_path = tempfile.mkstemp(
+        prefix="dhcpd.",
+        suffix=".candidate",
+        dir=target_dir
+    )
+
+
+    # 직접 파일 descriptor는 쓰지 않으므로 닫기
+    os.close(fd)
+
+
+    temp_path = Path(temp_path)
+
+
+    # 백업 파일
+    backup_path = Path(
+        "/etc/dhcp/dhcpd.conf.backup"
+    )
+
+    try:
+
+        # 후보 설정파일 작성
+        temp_path.write_text(config)
+
+
+        # dhcpd 자체의 문법 검사 기능 사용
+        subprocess.run(
+            [
+                DHCPD,
+                "-t",
+                "-cf",
+                str(temp_path)
+            ],
+            check=True
+        )
+
+        if (
+            TARGET_CONFIG.exists()
+            and TARGET_CONFIG.read_bytes()
+            == temp_path.read_bytes()
+        ):
+
+            print(
+                "DHCP configuration unchanged."
+            )
+
+            return
+
+        if TARGET_CONFIG.exists():
+
+            shutil.copy2(
+                TARGET_CONFIG,
+                backup_path
+            )
+
+        os.replace(
+            temp_path,
+            TARGET_CONFIG
+        )
+
+        try:
+
+            subprocess.run(
+                [
+                    SYSTEMCTL,
+                    "restart",
+                    "isc-dhcp-server"
+                ],
+                check=True
+            )
+
+        except Exception:
+
+            print(
+                "DHCP restart failed. Rolling back."
+            )
+
+
+            if backup_path.exists():
+
+                shutil.copy2(
+                    backup_path,
+                    TARGET_CONFIG
+                )
+
+
+                subprocess.run(
+                    [
+                        SYSTEMCTL,
+                        "restart",
+                        "isc-dhcp-server"
+                    ],
+                    check=False
+                )
+
+
+            raise
+
+        mysql_query(
+            """
+            UPDATE radius.dhcp_reservation
+
+               SET apply_state = 'APPLIED',
+                   applied_at = CURRENT_TIMESTAMP
+
+             WHERE enabled = 1
+               AND apply_state <> 'APPLIED';
+            """
+        )
+
+
+        print(
+            "DHCP configuration updated successfully."
+        )
+
+    finally:
+
+        if temp_path.exists():
+
+            temp_path.unlink()
+
+if __name__ == "__main__":
+    main()

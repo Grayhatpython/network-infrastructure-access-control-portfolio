@@ -1,0 +1,5 @@
+[client]
+host=localhost
+user=dhcp_sync
+password=<MYSQL_PASSWORD>
+database=radius

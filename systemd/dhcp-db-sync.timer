@@ -1,0 +1,11 @@
+[Unit]
+Description=Periodically synchronize DHCP configuration from DB
+
+[Timer]
+OnBootSec=30s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=dhcp-db-sync.service
+
+[Install]
+WantedBy=timers.target
