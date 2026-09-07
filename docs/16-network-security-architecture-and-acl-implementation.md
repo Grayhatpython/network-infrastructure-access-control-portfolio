@@ -378,4 +378,4 @@ IN/OUT ACL이 혼합되어 운영자가 혼동하는 것을 줄인다.
 
 ## Phase 3-1 — Guest VLAN24 접근통제
 
-![Guest VLAN24 접근통제](/network-security/phase-03-01-guest-acl.md)
+![Guest VLAN24 접근통제](/phase-03-01-guest-acl.md)
