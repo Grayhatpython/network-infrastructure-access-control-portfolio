@@ -1,7 +1,5 @@
 # Phase 3-1. Guest VLAN24 접근통제 구축
 
-> **프로젝트:** Network Infrastructure & Access Control Portfolio  
-> **상위 문서:** `21-network-security-architecture-and-acl-implementation.md`  
 > **단계:** Phase 3-1  
 > **상태:** ✅ 완료  
 > **대상 VLAN:** VLAN24 Guest  
