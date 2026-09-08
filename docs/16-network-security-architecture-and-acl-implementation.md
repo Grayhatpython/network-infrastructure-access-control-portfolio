@@ -376,10 +376,10 @@ IN/OUT ACL이 혼합되어 운영자가 혼동하는 것을 줄인다.
 
 # 13. 첫 번째 실제 구축 단계
 
-## Phase 3-1 — Guest VLAN24 접근통제
+## Phase 3-1 
 
-![Guest VLAN24 접근통제](/network-security/16-phase-03-01-guest-acl)
+📁 [Guest VLAN24 접근통제](16-phase-03-01-guest-acl.md)
 
 ## Phase 3-2 — Dormitory VLAN80 접근통제
 
-![Dormitory VLAN80 접근통제](/network-security/16-phase-03-02-dormitory-acl)
+📁 [Dormitory VLAN80 접근통제](16-phase-03-02-dormitory-acl.md)
