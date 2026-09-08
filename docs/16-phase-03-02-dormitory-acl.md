@@ -577,7 +577,6 @@ end
 - [x] Rollback 절차 정의
 - [x] ACL Counter 검증
 - [x] Evidence 확보
-- [x] GitHub 문서 갱신
 
 ---
 
