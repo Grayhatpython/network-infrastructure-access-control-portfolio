@@ -383,3 +383,8 @@ IN/OUT ACL이 혼합되어 운영자가 혼동하는 것을 줄인다.
 ## Phase 3-2 — Dormitory VLAN80 접근통제
 
 📁 [Dormitory VLAN80 접근통제](16-phase-03-02-dormitory-acl.md)
+
+## Phase 3-3 — AuthFail VLAN98 접근통제
+
+📁 [AuthFail VLAN98 접근통제](16-phase-03-03-authfail-vlan98-quarantine.md)
+
