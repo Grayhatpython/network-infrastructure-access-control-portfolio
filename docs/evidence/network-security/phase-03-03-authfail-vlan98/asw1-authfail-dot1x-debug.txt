@@ -1,0 +1,369 @@
+*Sep  9 03:55:44.005: dot1x-packet:[000c.2947.ffff, Gi1/1] queuing an EAPOL pkt on Auth Q
+*Sep  9 03:55:44.005: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x1 
+*Sep  9 03:55:44.005: dot1x-packet: length: 0x0000
+*Sep  9 03:55:44.005: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 0,TYPE= 0,LEN= 0
+
+*Sep  9 03:55:44.006: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0101.0000
+*Sep  9 03:55:44.006: dot1x-ev:[Gi1/1] Couldn't find the supplicant in the list
+*Sep  9 03:55:44.006: dot1x-ev:[000c.2947.ffff, Gi1/1] New client detected, sending session start event for 000c.2947.ffff
+*Sep  9 03:55:44.008:     dot1x_auth Gi1/1: initial state auth_initialize has enter
+*Sep  9 03:55:44.009: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: initialising
+*Sep  9 03:55:44.009:     dot1x_auth Gi1/1: during state auth_initialize, got event 0(cfg_auto)
+*Sep  9 03:55:44.009: @@@ dot1x_auth Gi1/1: auth_initialize -> auth_disconnected
+*Sep  9 03:55:44.009: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: disconnected
+*Sep  9 03:55:44.009:     dot1x_auth Gi1/1: idle during state auth_disconnected
+*Sep  9 03:55:44.009: @@@ dot1x_auth Gi1/1: auth_disconnected -> auth_restart
+*Sep  9 03:55:44.010: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: entering restart
+*Sep  9 03:55:44.010: dot1x-ev:[000c.2947.ffff, Gi1/1] Sending create new context event to EAP for 0xFC000005 (000c.2947.ffff)
+*Sep  9 03:55:44.010:     dot1x_auth_bend Gi1/1: initial state auth_bend_initialize has enter
+*Sep  9 03:55:44.010: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: entering init state
+*Sep  9 03:55:44.010:     dot1x_auth_bend Gi1/1: initial state auth_bend_initialize has idle
+*Sep  9 03:55:44.011:     dot1x_auth_bend Gi1/1: during state auth_bend_initialize, got event 16383(idle)
+*Sep  9 03:55:44.011: @@@ dot1x_auth_bend Gi1/1: auth_bend_initialize -> auth_bend_idle
+*Sep  9 03:55:44.011: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering idle sta
+ASW1#te
+*Sep  9 03:55:44.011: dot1x-ev:[000c.2947.ffff, Gi1/1] Created a client entry (0xFC000005)
+*Sep  9 03:55:44.011: dot1x-ev:[000c.2947.ffff, Gi1/1] Dot1x authentication started for 0xFC000005 (000c.2947.ffff)
+*Sep  9 03:55:44.013: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting !EAP_RESTART on Client 0xFC000005
+*Sep  9 03:55:44.013:     dot1x_auth Gi1/1: during state auth_restart, got event 6(no_eapRestart)
+*Sep  9 03:55:44.013: @@@ dot1x_auth Gi1/1: auth_restart -> auth_connecting
+*Sep  9 03:55:44.013: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:enter connecting state
+*Sep  9 03:55:44.013: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: restart connecting
+*Sep  9 03:55:44.013: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting RX_REQ on Client 0xFC000005
+*Sep  9 03:55:44.014:
+ASW1#     dot1x_auth Gi1/1: during state auth_connecting, got event 10(eapReq_no_reAuthMax)
+*Sep  9 03:55:44.014: @@@ dot1x_auth Gi1/1: auth_connecting -> auth_authenticating
+*Sep  9 03:55:44.014: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005: authenticating state entered
+*Sep  9 03:55:44.014: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:connecting authenticating action
+*Sep  9 03:55:44.014: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting AUTH_START for 0xFC000005
+*Sep  9 03:55:44.014:     dot1x_auth_bend Gi1/1: during state auth_bend_idle, got event 4(eapReq_authStart)
+*Sep  9 03:55:44.014: @@@ dot1x_auth_bend Gi1/1: auth_bend_idle -> auth_bend_request
+*Sep  9 03:55:44.015: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:44.
+ASW1#015: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:44.015: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:44.015: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:44.015: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:44.015: dot1x-packet: length: 0x0005
+*Sep  9 03:55:44.016: dot1x-packet:EAP code: 0x1  id: 0x1  length: 0x0005
+*Sep  9 03:55:44.016: dot1x-packet: type: 0x1 
+*Sep  9 03:55:44.017: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:44.017: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:idle request action
+ASW1#
+*Sep  9 03:55:49.305: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.305: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.305: dot1x-packet: length: 0x000B
+*Sep  9 03:55:49.306: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 1,LEN= 11
+
+*Sep  9 03:55:49.306: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.000b
+*Sep  9 03:55:49.306: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.306: dot1x-packet: length: 0x000B
+*Sep  9 03:55:49.307: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.307:     dot1x_auth_bend Gi1/1: during state auth_bend_request, got event 6(eapolEap)
+*Sep  9 03:55:49.308: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.308: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.308: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.308: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.318: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.318:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.319: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.319: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+*Sep  9 03:55:49.319: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.319: dot1x-ev:[0180.c200.0003, Gi1
+ASW1#/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.319: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.320: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.320: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.320: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.320: dot1x-packet:EAP code: 0x1  id: 0x2  length: 0x0006
+*Sep  9 03:55:49.320: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.321: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.322: dot1x-sm:
+ASW1#[000c.2947.ffff, Gi1/1] 0xFC000005:response request action
+*Sep  9 03:55:49.324: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.324: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.324: dot1x-packet: length: 0x00AC
+*Sep  9 03:55:49.324: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 172
+
+*Sep  9 03:55:49.324: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.00ac
+*Sep  9 03:55:49.325: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.325: dot1x-packet: length: 0x00AC
+*Sep  9 03:55:49.325: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.325:     dot1x_auth_bend Gi1/1: during
+ASW1# state auth_bend_request, got event 6(eapolEap)
+*Sep  9 03:55:49.325: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.326: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.326: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.326: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.340: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.340:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.340: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.340: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting re
+ASW1#sponse state
+*Sep  9 03:55:49.340: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.340: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.341: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.341: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.341: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.341: dot1x-packet: length: 0x03EC
+*Sep  9 03:55:49.341: dot1x-packet:EAP code: 0x1  id: 0x3  length: 0x03EC
+*Sep  9 03:55:49.341: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.342: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.344: dot1x-sm:[000c.2947.ffff, Gi1/
+ASW1#1] 0xFC000005:response request action
+*Sep  9 03:55:49.345: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.345: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.345: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.346: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 6
+
+*Sep  9 03:55:49.346: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.0006
+*Sep  9 03:55:49.346: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.346: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.347: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.347:     dot1x_auth_bend Gi1/1: during state auth_bend_reques
+ASW1#t, got event 6(eapolEap)
+*Sep  9 03:55:49.347: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.347: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.347: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.347: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.357: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.357:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.357: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.358: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+*Sep  9 0
+ASW1#3:55:49.358: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.358: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.358: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.358: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.358: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.359: dot1x-packet: length: 0x03E8
+*Sep  9 03:55:49.359: dot1x-packet:EAP code: 0x1  id: 0x4  length: 0x03E8
+*Sep  9 03:55:49.359: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.360: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.361: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:response 
+ASW1#request action
+*Sep  9 03:55:49.363: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.363: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.364: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.364: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 6
+
+*Sep  9 03:55:49.364: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.0006
+*Sep  9 03:55:49.364: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.364: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.365: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.365:     dot1x_auth_bend Gi1/1: during state auth_bend_request, got 
+ASW1#event 6(eapolEap)
+*Sep  9 03:55:49.365: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.365: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.365: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.365: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.373: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.373:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.373: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.373: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+
+ASW1#*Sep  9 03:55:49.374: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.374: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.374: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.374: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.374: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.375: dot1x-packet: length: 0x0341
+*Sep  9 03:55:49.375: dot1x-packet:EAP code: 0x1  id: 0x5  length: 0x0341
+*Sep  9 03:55:49.375: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.376: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.376: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:
+ASW1#response request action
+*Sep  9 03:55:49.381: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.381: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.381: dot1x-packet: length: 0x0067
+*Sep  9 03:55:49.382: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 103
+
+*Sep  9 03:55:49.382: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.0067
+*Sep  9 03:55:49.382: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.382: dot1x-packet: length: 0x0067
+*Sep  9 03:55:49.384: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.384:     dot1x_auth_bend Gi1/1: during state auth_bend_re
+ASW1#quest, got event 6(eapolEap)
+*Sep  9 03:55:49.384: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.385: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.385: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.385: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.394: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.395:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.395: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.395: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting respo
+ASW1#nse state
+*Sep  9 03:55:49.395: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.395: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.395: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.396: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.396: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.396: dot1x-packet: length: 0x0039
+*Sep  9 03:55:49.396: dot1x-packet:EAP code: 0x1  id: 0x6  length: 0x0039
+*Sep  9 03:55:49.396: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.397: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.397: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:respo
+ASW1#nse request action
+*Sep  9 03:55:49.401: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.401: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.401: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.402: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 6
+
+*Sep  9 03:55:49.402: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.0006
+*Sep  9 03:55:49.402: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.402: dot1x-packet: length: 0x0006
+*Sep  9 03:55:49.403: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.403:     dot1x_auth_bend Gi1/1: during state auth_bend_request, 
+ASW1#got event 6(eapolEap)
+*Sep  9 03:55:49.403: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.404: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.404: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.404: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.414: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.415:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.415: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.415: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response sta
+ASW1#te
+*Sep  9 03:55:49.415: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.415: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.415: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.416: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.416: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.416: dot1x-packet: length: 0x0028
+*Sep  9 03:55:49.416: dot1x-packet:EAP code: 0x1  id: 0x7  length: 0x0028
+*Sep  9 03:55:49.416: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.417: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.418: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:response req
+ASW1#uest action
+*Sep  9 03:55:49.420: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.420: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.420: dot1x-packet: length: 0x002A
+*Sep  9 03:55:49.420: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 42
+
+*Sep  9 03:55:49.421: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.002a
+*Sep  9 03:55:49.421: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.421: dot1x-packet: length: 0x002A
+*Sep  9 03:55:49.421: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.422:     dot1x_auth_bend Gi1/1: during state auth_bend_request, got ev
+ASW1#ent 6(eapolEap)
+*Sep  9 03:55:49.422: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.422: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.422: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.422: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.431: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.431:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.432: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.432: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+*S
+ASW1#ep  9 03:55:49.432: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.432: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.432: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.432: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.432: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.433: dot1x-packet: length: 0x004A
+*Sep  9 03:55:49.433: dot1x-packet:EAP code: 0x1  id: 0x8  length: 0x004A
+*Sep  9 03:55:49.433: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.434: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.435: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:response request a
+ASW1#ction
+*Sep  9 03:55:49.437: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.437: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.438: dot1x-packet: length: 0x0060
+*Sep  9 03:55:49.438: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 96
+
+*Sep  9 03:55:49.438: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.0060
+*Sep  9 03:55:49.438: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.438: dot1x-packet: length: 0x0060
+*Sep  9 03:55:49.439: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.439:     dot1x_auth_bend Gi1/1: during state auth_bend_request, got event 6(
+ASW1#eapolEap)
+*Sep  9 03:55:49.440: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.440: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.440: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.440: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:49.459: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_REQ for 0xFC000005
+*Sep  9 03:55:49.459:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 7(eapReq)
+*Sep  9 03:55:49.459: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_request
+*Sep  9 03:55:49.459: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+*Sep  9 
+ASW1#03:55:49.460: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering request state
+*Sep  9 03:55:49.460: dot1x-ev:[0180.c200.0003, Gi1/1] Sending EAPOL packet to group PAE address
+*Sep  9 03:55:49.460: dot1x-registry:registry:dot1x_ether_macaddr called
+*Sep  9 03:55:49.460: dot1x-ev:[Gi1/1] Sending out EAPOL packet to MAC 0180.c200.0003
+*Sep  9 03:55:49.460: dot1x-packet:EAPOL pak Tx - Ver: 0x3  type: 0x0 
+*Sep  9 03:55:49.460: dot1x-packet: length: 0x002E
+*Sep  9 03:55:49.461: dot1x-packet:EAP code: 0x1  id: 0x9  length: 0x002E
+*Sep  9 03:55:49.461: dot1x-packet: type: 0x19
+*Sep  9 03:55:49.462: dot1x-packet:[000c.2947.ffff, Gi1/1] EAPOL packet sent to client 0xFC000005
+*Sep  9 03:55:49.462: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:response
+ASW1# request action
+*Sep  9 03:55:49.465: dot1x-packet:[000c.2947.ffff, Gi1/1] Queuing an EAPOL pkt on Authenticator Q
+*Sep  9 03:55:49.465: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.465: dot1x-packet: length: 0x002E
+*Sep  9 03:55:49.465: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 2,TYPE= 25,LEN= 46
+
+*Sep  9 03:55:49.465: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0100.002e
+*Sep  9 03:55:49.466: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x0 
+*Sep  9 03:55:49.466: dot1x-packet: length: 0x002E
+*Sep  9 03:55:49.466: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAPOL_EAP for 0xFC000005
+*Sep  9 03:55:49.466:     dot1x_auth_bend Gi1/1: during state auth_bend_request, go
+ASW1#t event 6(eapolEap)
+*Sep  9 03:55:49.467: @@@ dot1x_auth_bend Gi1/1: auth_bend_request -> auth_bend_response
+*Sep  9 03:55:49.467: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering response state
+*Sep  9 03:55:49.467: dot1x-ev:[000c.2947.ffff, Gi1/1] Response sent to the server from 0xFC000005
+*Sep  9 03:55:49.467: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:request response action
+*Sep  9 03:55:50.477: dot1x-ev:[000c.2947.ffff, Gi1/1] Received an EAP Fail
+*Sep  9 03:55:50.477: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting EAP_FAIL for 0xFC000005
+*Sep  9 03:55:50.477:     dot1x_auth_bend Gi1/1: during state auth_bend_response, got event 10(eapFail)
+*Sep  9 03:55:50.477: @@@ dot1x_auth_bend Gi1/1: auth_bend_response -> auth_bend_fail
+*Sep  9 03:55:50.478: dot1x
+ASW1#-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting response state
+*Sep  9 03:55:50.478: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering fail state
+*Sep  9 03:55:50.478: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:response fail action
+*Sep  9 03:55:50.478:     dot1x_auth_bend Gi1/1: idle during state auth_bend_fail
+*Sep  9 03:55:50.478: @@@ dot1x_auth_bend Gi1/1: auth_bend_fail -> auth_bend_idle
+*Sep  9 03:55:50.478: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering idle state
+*Sep  9 03:55:50.479: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting AUTH_FAIL on Client 0xFC000005
+*Sep  9 03:55:50.479:     dot1x_auth Gi1/1: during state auth_authenticating, got event 15(authFail)
+*Sep  9 03:55:50.480: @@@ dot1x_auth Gi1/1: auth_authenticating -> auth_authc_result
+*Se
+ASW1#p  9 03:55:50.480: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:exiting authenticating state
+*Sep  9 03:55:50.480: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering authc result state
+*Sep  9 03:55:50.480: %DOT1X-5-FAIL: Authentication failed for client (000c.2947.ffff) on Interface Gi1/1 AuditSessionID AC100B1E0000000D0040614C
+*Sep  9 03:55:50.480: dot1x-packet:[000c.2947.ffff, Gi1/1] Added username in dot1x
+*Sep  9 03:55:50.480: dot1x-packet:[000c.2947.ffff, Gi1/1] Dot1x did not receive any key data
+*Sep  9 03:55:50.774: dot1x-ev:[000c.2947.ffff, Gi1/1] Received Authz Success for the client 0xFC000005 (000c.2947.ffff)
+*Sep  9 03:55:50.776: dot1x-sm:[000c.2947.ffff, Gi1/1] Posting AUTHZ_SUCCESS on Client 0xFC000005
+*Sep  9 03:55:50.776:     
+ASW1#dot1x_auth Gi1/1: during state auth_authc_result, got event 23(authzSuccess)
+*Sep  9 03:55:50.776: @@@ dot1x_auth Gi1/1: auth_authc_result -> auth_authenticated
+*Sep  9 03:55:50.776: dot1x-sm:[000c.2947.ffff, Gi1/1] 0xFC000005:entering authenticated state
+*Sep  9 03:55:50.776: %DOT1X-5-RESULT_OVERRIDE: Authentication result overridden for client (000c.2947.ffff) on Interface Gi1/1 AuditSessionID AC100B1E0000000D0040614C
+*Sep  9 03:55:50.776: dot1x-ev:[000c.2947.ffff, Gi1/1] No CannedSuccess for auth-fail as Bypass is disabled.
+*Sep  9 03:56:07.374: dot1x-packet:[000c.2947.ffff, Gi1/1] queuing an EAPOL pkt on Auth Q
+*Sep  9 03:56:07.375: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x1 
+*Sep  9 03:56:07.375: dot1x-packet: length: 0x0000
+*Sep  9 03:56:07.375: do
+ASW1#t1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 0,TYPE= 0,LEN= 0
+
+*Sep  9 03:56:07.375: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0101.0000
+*Sep  9 03:56:07.376: dot1x-ev:[000c.2947.ffff, Gi1/1] Ignoring EAPOL-START packets for mac (000c.2947.ffff). Client already placed in Auth-Fail .
+*Sep  9 03:56:07.376: dot1x-packet:[000c.2947.ffff, Gi1/1] Dropping EAPOL-Start packet
+*Sep  9 03:56:12.379: dot1x-packet:[000c.2947.ffff, Gi1/1] queuing an EAPOL pkt on Auth Q
+*Sep  9 03:56:12.379: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x1 
+*Sep  9 03:56:12.380: dot1x-packet: length: 0x0000
+*Sep  9 03:56:12.380: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 0,TYPE= 0,LEN= 0
+
+*Sep  9 03:56:12.380: d
+ASW1#ot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-type = 888e.0101.0000
+*Sep  9 03:56:12.380: dot1x-ev:[000c.2947.ffff, Gi1/1] Ignoring EAPOL-START packets for mac (000c.2947.ffff). Client already placed in Auth-Fail .
+*Sep  9 03:56:12.380: dot1x-packet:[000c.2947.ffff, Gi1/1] Dropping EAPOL-Start packet
+*Sep  9 03:56:17.383: dot1x-packet:[000c.2947.ffff, Gi1/1] queuing an EAPOL pkt on Auth Q
+*Sep  9 03:56:17.383: dot1x-packet:EAPOL pak rx - Ver: 0x1  type: 0x1 
+*Sep  9 03:56:17.384: dot1x-packet: length: 0x0000
+*Sep  9 03:56:17.384: dot1x-ev:[Gi1/1] Dequeued pkt: Int Gi1/1 CODE= 0,TYPE= 0,LEN= 0
+
+*Sep  9 03:56:17.385: dot1x-ev:[Gi1/1] Received pkt saddr =000c.2947.ffff , daddr = 0180.c200.0003, pae-ether-t
+ASW1#ype = 888e.0101.0000
+*Sep  9 03:56:17.385: dot1x-ev:[000c.2947.ffff, Gi1/1] Ignoring EAPOL-START packets for mac (000c.2947.ffff). Client already placed in Auth-Fail .
+*Sep  9 03:56:17.385: dot1x-packet:[000c.2947.ffff, Gi1/1] Dropping EAPOL-Start packet

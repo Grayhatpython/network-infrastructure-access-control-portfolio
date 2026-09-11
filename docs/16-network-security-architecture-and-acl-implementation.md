@@ -388,3 +388,6 @@ IN/OUT ACL이 혼합되어 운영자가 혼동하는 것을 줄인다.
 
 📁 [AuthFail VLAN98 접근통제](16-phase-03-03-authfail-vlan98-quarantine.md)
 
+## Phase 3-4 — No Response Onboarding VLAN99 접근통제
+
+📁 [Onboarding VLAN99 접근통제](16-phase-03-04-vlan99-no-response-onboarding.md)

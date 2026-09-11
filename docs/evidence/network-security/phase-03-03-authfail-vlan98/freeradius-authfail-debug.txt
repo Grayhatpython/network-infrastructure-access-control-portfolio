@@ -1,0 +1,529 @@
+(8) # Executing section authorize from file /etc/freeradius/3.0/sites-enabled/default
+(8)   authorize {
+(8)     policy filter_username {
+(8)       if (&User-Name) {
+(8)       if (&User-Name)  -> TRUE
+(8)       if (&User-Name)  {
+(8)         if (&User-Name =~ / /) {
+(8)         if (&User-Name =~ / /)  -> FALSE
+(8)         if (&User-Name =~ /@[^@]*@/ ) {
+(8)         if (&User-Name =~ /@[^@]*@/ )  -> FALSE
+(8)         if (&User-Name =~ /\.\./ ) {
+(8)         if (&User-Name =~ /\.\./ )  -> FALSE
+(8)         if ((&User-Name =~ /@/) && (&User-Name !~ /@(.+)\.(.+)$/))  {
+(8)         if ((&User-Name =~ /@/) && (&User-Name !~ /@(.+)\.(.+)$/))   -> FALSE
+(8)         if (&User-Name =~ /\.$/)  {
+(8)         if (&User-Name =~ /\.$/)   -> FALSE
+(8)         if (&User-Name =~ /@\./)  {
+(8)         if (&User-Name =~ /@\./)   -> FALSE
+(8)       } # if (&User-Name)  = notfound
+(8)     } # policy filter_username = notfound
+(8)     [preprocess] = ok
+(8)     [chap] = noop
+(8)     [mschap] = noop
+(8)     [digest] = noop
+(8) suffix: Checking for suffix after "@"
+(8) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(8) suffix: No such realm "NULL"
+(8)     [suffix] = noop
+(8) eap: Peer sent EAP Response (code 2) ID 9 length 46
+(8) eap: Continuing tunnel setup
+(8)     [eap] = ok
+(8)   } # authorize = ok
+(8) Found Auth-Type = eap
+(8) # Executing group from file /etc/freeradius/3.0/sites-enabled/default
+(8)   authenticate {
+(8) eap: Expiring EAP session with state 0x8c85db198b8cc2ea
+(8) eap: Finished EAP session with state 0x8c85db198b8cc2ea
+(8) eap: Previous EAP request found for state 0x8c85db198b8cc2ea, released from the list
+(8) eap: Peer sent packet with method EAP PEAP (25)
+(8) eap: Calling submodule eap_peap to process data
+(8) eap_peap: (TLS) EAP Done initial handshake
+(8) eap_peap: Session established.  Decoding tunneled attributes
+(8) eap_peap: PEAP state send tlv failure
+(8) eap_peap: Received EAP-TLV response
+(8) eap_peap:   ERROR: The users session was previously rejected: returning reject (again.)
+(8) eap_peap:   This means you need to read the PREVIOUS messages in the debug output
+(8) eap_peap:   to find out the reason why the user was rejected
+(8) eap_peap:   Look for "reject" or "fail".  Those earlier messages will tell you
+(8) eap_peap:   what went wrong, and how to fix the problem
+(8) eap: ERROR: Failed continuing EAP PEAP (25) session.  EAP sub-module failed
+(8) eap: Sending EAP Failure (code 4) ID 9 length 4
+(8) eap: Failed in EAP select
+(8)     [eap] = invalid
+(8)   } # authenticate = invalid
+(8) Failed to authenticate the user
+(8) Using Post-Auth-Type Reject
+(8) # Executing group from file /etc/freeradius/3.0/sites-enabled/default
+(8)   Post-Auth-Type REJECT {
+(8) sql: EXPAND .query
+(8) sql:    --> .query
+(8) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (3)
+(8) sql: EXPAND %{User-Name}
+(8) sql:    --> A10014
+(8) sql: SQL-User-Name set to 'A10014'
+(8) sql: EXPAND INSERT INTO radpostauth (username, pass, reply, authdate ) VALUES ( '%{SQL-User-Name}', '%{%{User-Password}:-%{Chap-Password}}', '%{reply:Packet-Type}', '%S.%M' )
+(8) sql:    --> INSERT INTO radpostauth (username, pass, reply, authdate ) VALUES ( 'A10014', '', 'Access-Reject', '2026-09-09 12:56:03.050797' )
+(8) sql: Executing query: INSERT INTO radpostauth (username, pass, reply, authdate ) VALUES ( 'A10014', '', 'Access-Reject', '2026-09-09 12:56:03.050797' )
+(8) sql: SQL query returned: success
+(8) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (3)
+(8)     [sql] = ok
+(8) attr_filter.access_reject: EXPAND %{User-Name}
+(8) attr_filter.access_reject:    --> A10014
+(8) attr_filter.access_reject: Matched entry DEFAULT at line 11
+(8)     [attr_filter.access_reject] = updated
+(8)     [eap] = noop
+(8)     policy remove_reply_message_if_eap {
+(8)       if (&reply:EAP-Message && &reply:Reply-Message) {
+(8)       if (&reply:EAP-Message && &reply:Reply-Message)  -> FALSE
+(8)       else {
+(8)         [noop] = noop
+(8)       } # else = noop
+(8)     } # policy remove_reply_message_if_eap = noop
+(8)   } # Post-Auth-Type REJECT = updated
+(8) Delaying response for 1.000000 seconds
+Waking up in 0.3 seconds.
+Waking up in 0.6 seconds.
+(8) Sending delayed response
+(8) Sent Access-Reject Id 18 from 172.16.10.10:1812 to 172.16.11.30:1645 length 44
+(8)   EAP-Message = 0x04090004
+(8)   Message-Authenticator = 0x00000000000000000000000000000000
+Waking up in 3.8 seconds.
+(0) Cleaning up request packet ID 10 with timestamp +14 due to cleanup_delay was reached
+(1) Cleaning up request packet ID 11 with timestamp +14 due to cleanup_delay was reached
+(2) Cleaning up request packet ID 12 with timestamp +14 due to cleanup_delay was reached
+(3) Cleaning up request packet ID 13 with timestamp +14 due to cleanup_delay was reached
+(4) Cleaning up request packet ID 14 with timestamp +14 due to cleanup_delay was reached
+(5) Cleaning up request packet ID 15 with timestamp +14 due to cleanup_delay was reached
+(6) Cleaning up request packet ID 16 with timestamp +15 due to cleanup_delay was reached
+(7) Cleaning up request packet ID 17 with timestamp +15 due to cleanup_delay was reached
+(8) Cleaning up request packet ID 18 with timestamp +15 due to cleanup_delay was reached
+Ready to process requests
+(9) Received Accounting-Request Id 1 from 172.16.11.30:1646 to 172.16.10.10:1813 length 219
+(9)   User-Name = "A10014"
+(9)   Cisco-AVPair = "audit-session-id=AC100B1E0000000D0040614C"
+(9)   Cisco-AVPair = "vlan-id=98"
+(9)   Cisco-AVPair = "method=dot1x"
+(9)   Called-Station-Id = "50-00-00-05-00-05"
+(9)   Calling-Station-Id = "00-0C-29-47-FF-FF"
+(9)   NAS-IP-Address = 172.16.11.30
+(9)   NAS-Port-Id = "GigabitEthernet1/1"
+(9)   NAS-Port-Type = Ethernet
+(9)   NAS-Port = 50101
+(9)   Acct-Session-Id = "00000002"
+(9)   Acct-Status-Type = Start
+(9)   Event-Timestamp = "Sep  9 2026 12:55:50 KST"
+(9)   Acct-Delay-Time = 0
+(9) # Executing section preacct from file /etc/freeradius/3.0/sites-enabled/default
+(9)   preacct {
+(9)     [preprocess] = ok
+(9)     policy acct_unique {
+(9)       update request {
+(9)         &Tmp-String-9 := "ai:"
+(9)       } # update request = noop
+(9)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&       ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i)) {
+(9)       EXPAND %{hex:&Class}
+(9)          --> 
+(9)       EXPAND ^%{hex:&Tmp-String-9}
+(9)          --> ^61693a
+(9)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&       ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i))  -> FALSE
+(9)       else {
+(9)         update request {
+(9)           EXPAND %{md5:%{User-Name},%{Acct-Session-ID},%{%{NAS-IPv6-Address}:-%{NAS-IP-Address}},%{NAS-Identifier},%{NAS-Port-ID},%{NAS-Port}}
+(9)              --> 358a8ee3de647265918b38872dd9a558
+(9)           &Acct-Unique-Session-Id := 358a8ee3de647265918b38872dd9a558
+(9)         } # update request = noop
+(9)       } # else = noop
+(9)       update request {
+(9)         &Tmp-String-9 !* ANY
+(9)       } # update request = noop
+(9)     } # policy acct_unique = noop
+(9) suffix: Checking for suffix after "@"
+(9) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(9) suffix: No such realm "NULL"
+(9)     [suffix] = noop
+(9)     [files] = noop
+(9)   } # preacct = ok
+(9) # Executing section accounting from file /etc/freeradius/3.0/sites-enabled/default
+(9)   accounting {
+(9) detail: EXPAND /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d
+(9) detail:    --> /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(9) detail: /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d expands to /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(9) detail: EXPAND %t
+(9) detail:    --> Wed Sep  9 12:56:14 2026
+(9)     [detail] = ok
+(9)     [unix] = ok
+(9) sql: EXPAND %{tolower:type.%{%{Acct-Status-Type}:-%{Request-Processing-Stage}}.query}
+(9) sql:    --> type.start.query
+(9) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (4)
+(9) sql: EXPAND %{User-Name}
+(9) sql:    --> A10014
+(9) sql: SQL-User-Name set to 'A10014'
+(9) sql: EXPAND INSERT INTO radacct (acctsessionid,             acctuniqueid,           username, realm,                        nasipaddress,         nasportid, nasporttype,          acctstarttime,          acctupdatetime, acctstoptime,           acctsessiontime,        acctauthentic, connectinfo_start,      connectinfo_stop,       acctinputoctets, acctoutputoctets,      calledstationid,        callingstationid, acctterminatecause,   servicetype,  framedprotocol, framedipaddress, framedipv6address,      framedipv6prefix, framedinterfaceid,    delegatedipv6prefix     ) VALUES ('%{Acct-Session-Id}', '%{Acct-Unique-Session-Id}', '%{SQL-User-Name}', '%{Realm}', '%{NAS-IP-Address}', '%{%{NAS-Port-ID}:-%{NAS-Port}}', '%{NAS-Port-Type}', FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), NULL, '0', '%{Acct-Authentic}', '%{Connect-Info}', '', '0', '0', '%{Called-Station-Id}', '%{Calling-Station-Id}', '', '%{Service-Type}', '%{Framed-Protocol}', '%{Framed-IP-Address}', '%{Framed-IPv6-Address}', '%{Framed-IPv6-Prefix}', '%{Framed-Interface-Id}', '%{Delegated-IPv6-Prefix}' )
+(9) sql:    --> INSERT INTO radacct (acctsessionid,             acctuniqueid,           username, realm,                        nasipaddress,         nasportid, nasporttype,          acctstarttime,          acctupdatetime, acctstoptime,           acctsessiontime,        acctauthentic, connectinfo_start,      connectinfo_stop,       acctinputoctets, acctoutputoctets,      calledstationid,        callingstationid, acctterminatecause,   servicetype,  framedprotocol, framedipaddress, framedipv6address,      framedipv6prefix, framedinterfaceid,    delegatedipv6prefix     ) VALUES ('00000002', '358a8ee3de647265918b38872dd9a558', 'A10014', '', '172.16.11.30', 'GigabitEthernet1/1', 'Ethernet', FROM_UNIXTIME(1788926150), FROM_UNIXTIME(1788926150), NULL, '0', '', '', '', '0', '0', '50-00-00-05-00-05', '00-0C-29-47-FF-FF', '', '', '', '', '', '', '', '' )
+(9) sql: Executing query: INSERT INTO radacct (acctsessionid,           acctuniqueid,           username, realm,                        nasipaddress, nasportid, nasporttype,          acctstarttime,          acctupdatetime, acctstoptime,           acctsessiontime,        acctauthentic, connectinfo_start,      connectinfo_stop,       acctinputoctets, acctoutputoctets,      calledstationid,        callingstationid, acctterminatecause,   servicetype,  framedprotocol, framedipaddress, framedipv6address,      framedipv6prefix, framedinterfaceid,    delegatedipv6prefix     ) VALUES ('00000002', '358a8ee3de647265918b38872dd9a558', 'A10014', '', '172.16.11.30', 'GigabitEthernet1/1', 'Ethernet', FROM_UNIXTIME(1788926150), FROM_UNIXTIME(1788926150), NULL, '0', '', '', '', '0', '0', '50-00-00-05-00-05', '00-0C-29-47-FF-FF', '', '', '', '', '', '', '', '' )
+(9) sql: rlm_sql_mysql: ERROR 1062 (Duplicate entry '358a8ee3de647265918b38872dd9a558' for key 'radacct.acctuniqueid'): 23000
+(9) sql: SQL query returned: need alt query
+(9) sql: Trying next query...
+(9) sql: EXPAND UPDATE radacct SET acctstarttime        = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), acctupdatetime      = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), connectinfo_start = '%{Connect-Info}' WHERE AcctUniqueId = '%{Acct-Unique-Session-Id}'
+(9) sql:    --> UPDATE radacct SET acctstarttime        = FROM_UNIXTIME(1788926150), acctupdatetime     = FROM_UNIXTIME(1788926150), connectinfo_start = '' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+(9) sql: Executing query: UPDATE radacct SET acctstarttime      = FROM_UNIXTIME(1788926150), acctupdatetime     = FROM_UNIXTIME(1788926150), connectinfo_start = '' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+rlm_sql_mysql: Rows matched: 1  Changed: 1  Warnings: 0
+(9) sql: SQL query returned: success
+(9) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (4)
+Need more connections to reach 10 spares
+rlm_sql (sql): Opening additional connection (7), 1 of 25 pending slots used
+rlm_sql_mysql: Starting connect to MySQL server
+WARNING: MYSQL_OPT_RECONNECT is deprecated and will be removed in a future version.
+rlm_sql_mysql: Connected to database 'radius' on Localhost via UNIX socket, server version 8.0.46-0ubuntu0.22.04.3, protocol version 10
+(9)     [sql] = ok
+(9)     [exec] = noop
+(9) attr_filter.accounting_response: EXPAND %{User-Name}
+(9) attr_filter.accounting_response:    --> A10014
+(9) attr_filter.accounting_response: Matched entry DEFAULT at line 12
+(9)     [attr_filter.accounting_response] = updated
+(9)   } # accounting = updated
+(9) Sent Accounting-Response Id 1 from 172.16.10.10:1813 to 172.16.11.30:1646 length 20
+(9) Finished request
+(9) Cleaning up request packet ID 1 with timestamp +26 due to done
+Ready to process requests
+(10) Received Accounting-Request Id 2 from 172.16.11.30:1646 to 172.16.10.10:1813 length 249
+(10)   User-Name = "A10014"
+(10)   Cisco-AVPair = "audit-session-id=AC100B1E0000000D0040614C"
+(10)   Cisco-AVPair = "vlan-id=98"
+(10)   Cisco-AVPair = "method=dot1x"
+(10)   Called-Station-Id = "50-00-00-05-00-05"
+(10)   Calling-Station-Id = "00-0C-29-47-FF-FF"
+(10)   NAS-IP-Address = 172.16.11.30
+(10)   NAS-Port-Id = "GigabitEthernet1/1"
+(10)   NAS-Port-Type = Ethernet
+(10)   NAS-Port = 50101
+(10)   Acct-Session-Id = "00000002"
+(10)   Framed-IP-Address = 169.254.159.233
+(10)   Acct-Status-Type = Interim-Update
+(10)   Event-Timestamp = "Sep  9 2026 12:55:53 KST"
+(10)   Acct-Input-Octets = 29128
+(10)   Acct-Output-Octets = 9244
+(10)   Acct-Input-Packets = 236
+(10)   Acct-Output-Packets = 62
+(10)   Acct-Delay-Time = 7
+(10) # Executing section preacct from file /etc/freeradius/3.0/sites-enabled/default
+(10)   preacct {
+(10)     [preprocess] = ok
+(10)     policy acct_unique {
+(10)       update request {
+(10)         &Tmp-String-9 := "ai:"
+(10)       } # update request = noop
+(10)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i)) {
+(10)       EXPAND %{hex:&Class}
+(10)          --> 
+(10)       EXPAND ^%{hex:&Tmp-String-9}
+(10)          --> ^61693a
+(10)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i))  -> FALSE
+(10)       else {
+(10)         update request {
+(10)           EXPAND %{md5:%{User-Name},%{Acct-Session-ID},%{%{NAS-IPv6-Address}:-%{NAS-IP-Address}},%{NAS-Identifier},%{NAS-Port-ID},%{NAS-Port}}
+(10)              --> 358a8ee3de647265918b38872dd9a558
+(10)           &Acct-Unique-Session-Id := 358a8ee3de647265918b38872dd9a558
+(10)         } # update request = noop
+(10)       } # else = noop
+(10)       update request {
+(10)         &Tmp-String-9 !* ANY
+(10)       } # update request = noop
+(10)     } # policy acct_unique = noop
+(10) suffix: Checking for suffix after "@"
+(10) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(10) suffix: No such realm "NULL"
+(10)     [suffix] = noop
+(10)     [files] = noop
+(10)   } # preacct = ok
+(10) # Executing section accounting from file /etc/freeradius/3.0/sites-enabled/default
+(10)   accounting {
+(10) detail: EXPAND /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d
+(10) detail:    --> /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(10) detail: /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d expands to /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(10) detail: EXPAND %t
+(10) detail:    --> Wed Sep  9 12:56:14 2026
+(10)     [detail] = ok
+(10)     [unix] = noop
+(10) sql: EXPAND %{tolower:type.%{%{Acct-Status-Type}:-%{Request-Processing-Stage}}.query}
+(10) sql:    --> type.interim-update.query
+(10) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (0)
+(10) sql: EXPAND %{User-Name}
+(10) sql:    --> A10014
+(10) sql: SQL-User-Name set to 'A10014'
+(10) sql: EXPAND UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), acctinterval    = %{%{integer:Event-Timestamp}:-%l} - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '%{Framed-IP-Address}', framedipv6address = '%{Framed-IPv6-Address}', framedipv6prefix = '%{Framed-IPv6-Prefix}', framedinterfaceid = '%{Framed-Interface-Id}', delegatedipv6prefix = '%{Delegated-IPv6-Prefix}', acctsessiontime = %{%{Acct-Session-Time}:-NULL}, acctinputoctets = '%{%{Acct-Input-Gigawords}:-0}' << 32 | '%{%{Acct-Input-Octets}:-0}', acctoutputoctets = '%{%{Acct-Output-Gigawords}:-0}' << 32 | '%{%{Acct-Output-Octets}:-0}' WHERE AcctUniqueId = '%{Acct-Unique-Session-Id}'
+(10) sql:    --> UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926153), acctinterval    = 1788926153 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '169.254.159.233', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '29128', acctoutputoctets = '0' << 32 | '9244' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+(10) sql: Executing query: UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926153), acctinterval    = 1788926153 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '169.254.159.233', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '29128', acctoutputoctets = '0' << 32 | '9244' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+rlm_sql_mysql: Rows matched: 1  Changed: 1  Warnings: 1
+(10) sql: SQL query returned: success
+(10) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (0)
+(10)     [sql] = ok
+(10)     [exec] = noop
+(10) attr_filter.accounting_response: EXPAND %{User-Name}
+(10) attr_filter.accounting_response:    --> A10014
+(10) attr_filter.accounting_response: Matched entry DEFAULT at line 12
+(10)     [attr_filter.accounting_response] = updated
+(10)   } # accounting = updated
+(10) Sent Accounting-Response Id 2 from 172.16.10.10:1813 to 172.16.11.30:1646 length 20
+(10) Finished request
+(10) Cleaning up request packet ID 2 with timestamp +26 due to done
+Ready to process requests
+(11) Received Accounting-Request Id 3 from 172.16.11.30:1646 to 172.16.10.10:1813 length 249
+(11)   User-Name = "A10014"
+(11)   Cisco-AVPair = "audit-session-id=AC100B1E0000000D0040614C"
+(11)   Cisco-AVPair = "vlan-id=98"
+(11)   Cisco-AVPair = "method=dot1x"
+(11)   Called-Station-Id = "50-00-00-05-00-05"
+(11)   Calling-Station-Id = "00-0C-29-47-FF-FF"
+(11)   NAS-IP-Address = 172.16.11.30
+(11)   NAS-Port-Id = "GigabitEthernet1/1"
+(11)   NAS-Port-Type = Ethernet
+(11)   NAS-Port = 50101
+(11)   Acct-Session-Id = "00000002"
+(11)   Framed-IP-Address = 169.254.159.233
+(11)   Acct-Status-Type = Interim-Update
+(11)   Event-Timestamp = "Sep  9 2026 12:55:53 KST"
+(11)   Acct-Input-Octets = 29128
+(11)   Acct-Output-Octets = 9244
+(11)   Acct-Input-Packets = 236
+(11)   Acct-Output-Packets = 62
+(11)   Acct-Delay-Time = 7
+(11) # Executing section preacct from file /etc/freeradius/3.0/sites-enabled/default
+(11)   preacct {
+(11)     [preprocess] = ok
+(11)     policy acct_unique {
+(11)       update request {
+(11)         &Tmp-String-9 := "ai:"
+(11)       } # update request = noop
+(11)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i)) {
+(11)       EXPAND %{hex:&Class}
+(11)          --> 
+(11)       EXPAND ^%{hex:&Tmp-String-9}
+(11)          --> ^61693a
+(11)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i))  -> FALSE
+(11)       else {
+(11)         update request {
+(11)           EXPAND %{md5:%{User-Name},%{Acct-Session-ID},%{%{NAS-IPv6-Address}:-%{NAS-IP-Address}},%{NAS-Identifier},%{NAS-Port-ID},%{NAS-Port}}
+(11)              --> 358a8ee3de647265918b38872dd9a558
+(11)           &Acct-Unique-Session-Id := 358a8ee3de647265918b38872dd9a558
+(11)         } # update request = noop
+(11)       } # else = noop
+(11)       update request {
+(11)         &Tmp-String-9 !* ANY
+(11)       } # update request = noop
+(11)     } # policy acct_unique = noop
+(11) suffix: Checking for suffix after "@"
+(11) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(11) suffix: No such realm "NULL"
+(11)     [suffix] = noop
+(11)     [files] = noop
+(11)   } # preacct = ok
+(11) # Executing section accounting from file /etc/freeradius/3.0/sites-enabled/default
+(11)   accounting {
+(11) detail: EXPAND /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d
+(11) detail:    --> /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(11) detail: /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d expands to /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(11) detail: EXPAND %t
+(11) detail:    --> Wed Sep  9 12:56:14 2026
+(11)     [detail] = ok
+(11)     [unix] = noop
+(11) sql: EXPAND %{tolower:type.%{%{Acct-Status-Type}:-%{Request-Processing-Stage}}.query}
+(11) sql:    --> type.interim-update.query
+(11) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (5)
+(11) sql: EXPAND %{User-Name}
+(11) sql:    --> A10014
+(11) sql: SQL-User-Name set to 'A10014'
+(11) sql: EXPAND UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), acctinterval    = %{%{integer:Event-Timestamp}:-%l} - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '%{Framed-IP-Address}', framedipv6address = '%{Framed-IPv6-Address}', framedipv6prefix = '%{Framed-IPv6-Prefix}', framedinterfaceid = '%{Framed-Interface-Id}', delegatedipv6prefix = '%{Delegated-IPv6-Prefix}', acctsessiontime = %{%{Acct-Session-Time}:-NULL}, acctinputoctets = '%{%{Acct-Input-Gigawords}:-0}' << 32 | '%{%{Acct-Input-Octets}:-0}', acctoutputoctets = '%{%{Acct-Output-Gigawords}:-0}' << 32 | '%{%{Acct-Output-Octets}:-0}' WHERE AcctUniqueId = '%{Acct-Unique-Session-Id}'
+(11) sql:    --> UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926153), acctinterval    = 1788926153 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '169.254.159.233', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '29128', acctoutputoctets = '0' << 32 | '9244' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+(11) sql: Executing query: UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926153), acctinterval    = 1788926153 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '169.254.159.233', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '29128', acctoutputoctets = '0' << 32 | '9244' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+rlm_sql_mysql: Rows matched: 1  Changed: 1  Warnings: 1
+(11) sql: SQL query returned: success
+(11) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (5)
+(11)     [sql] = ok
+(11)     [exec] = noop
+(11) attr_filter.accounting_response: EXPAND %{User-Name}
+(11) attr_filter.accounting_response:    --> A10014
+(11) attr_filter.accounting_response: Matched entry DEFAULT at line 12
+(11)     [attr_filter.accounting_response] = updated
+(11)   } # accounting = updated
+(11) Sent Accounting-Response Id 3 from 172.16.10.10:1813 to 172.16.11.30:1646 length 20
+(11) Finished request
+(11) Cleaning up request packet ID 3 with timestamp +26 due to done
+Ready to process requests
+(12) Received Accounting-Request Id 4 from 172.16.11.30:1646 to 172.16.10.10:1813 length 249
+(12)   User-Name = "A10014"
+(12)   Cisco-AVPair = "audit-session-id=AC100B1E0000000D0040614C"
+(12)   Cisco-AVPair = "vlan-id=98"
+(12)   Cisco-AVPair = "method=dot1x"
+(12)   Called-Station-Id = "50-00-00-05-00-05"
+(12)   Calling-Station-Id = "00-0C-29-47-FF-FF"
+(12)   NAS-IP-Address = 172.16.11.30
+(12)   NAS-Port-Id = "GigabitEthernet1/1"
+(12)   NAS-Port-Type = Ethernet
+(12)   NAS-Port = 50101
+(12)   Acct-Session-Id = "00000002"
+(12)   Framed-IP-Address = 172.16.98.11
+(12)   Acct-Status-Type = Interim-Update
+(12)   Event-Timestamp = "Sep  9 2026 12:55:56 KST"
+(12)   Acct-Input-Octets = 34068
+(12)   Acct-Output-Octets = 10048
+(12)   Acct-Input-Packets = 286
+(12)   Acct-Output-Packets = 66
+(12)   Acct-Delay-Time = 3
+(12) # Executing section preacct from file /etc/freeradius/3.0/sites-enabled/default
+(12)   preacct {
+(12)     [preprocess] = ok
+(12)     policy acct_unique {
+(12)       update request {
+(12)         &Tmp-String-9 := "ai:"
+(12)       } # update request = noop
+(12)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i)) {
+(12)       EXPAND %{hex:&Class}
+(12)          --> 
+(12)       EXPAND ^%{hex:&Tmp-String-9}
+(12)          --> ^61693a
+(12)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i))  -> FALSE
+(12)       else {
+(12)         update request {
+(12)           EXPAND %{md5:%{User-Name},%{Acct-Session-ID},%{%{NAS-IPv6-Address}:-%{NAS-IP-Address}},%{NAS-Identifier},%{NAS-Port-ID},%{NAS-Port}}
+(12)              --> 358a8ee3de647265918b38872dd9a558
+(12)           &Acct-Unique-Session-Id := 358a8ee3de647265918b38872dd9a558
+(12)         } # update request = noop
+(12)       } # else = noop
+(12)       update request {
+(12)         &Tmp-String-9 !* ANY
+(12)       } # update request = noop
+(12)     } # policy acct_unique = noop
+(12) suffix: Checking for suffix after "@"
+(12) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(12) suffix: No such realm "NULL"
+(12)     [suffix] = noop
+(12)     [files] = noop
+(12)   } # preacct = ok
+(12) # Executing section accounting from file /etc/freeradius/3.0/sites-enabled/default
+(12)   accounting {
+(12) detail: EXPAND /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d
+(12) detail:    --> /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(12) detail: /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d expands to /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(12) detail: EXPAND %t
+(12) detail:    --> Wed Sep  9 12:56:14 2026
+(12)     [detail] = ok
+(12)     [unix] = noop
+(12) sql: EXPAND %{tolower:type.%{%{Acct-Status-Type}:-%{Request-Processing-Stage}}.query}
+(12) sql:    --> type.interim-update.query
+(12) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (1)
+(12) sql: EXPAND %{User-Name}
+(12) sql:    --> A10014
+(12) sql: SQL-User-Name set to 'A10014'
+(12) sql: EXPAND UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), acctinterval    = %{%{integer:Event-Timestamp}:-%l} - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '%{Framed-IP-Address}', framedipv6address = '%{Framed-IPv6-Address}', framedipv6prefix = '%{Framed-IPv6-Prefix}', framedinterfaceid = '%{Framed-Interface-Id}', delegatedipv6prefix = '%{Delegated-IPv6-Prefix}', acctsessiontime = %{%{Acct-Session-Time}:-NULL}, acctinputoctets = '%{%{Acct-Input-Gigawords}:-0}' << 32 | '%{%{Acct-Input-Octets}:-0}', acctoutputoctets = '%{%{Acct-Output-Gigawords}:-0}' << 32 | '%{%{Acct-Output-Octets}:-0}' WHERE AcctUniqueId = '%{Acct-Unique-Session-Id}'
+(12) sql:    --> UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926156), acctinterval    = 1788926156 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '172.16.98.11', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '34068', acctoutputoctets = '0' << 32 | '10048' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+(12) sql: Executing query: UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926156), acctinterval    = 1788926156 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '172.16.98.11', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '34068', acctoutputoctets = '0' << 32 | '10048' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+rlm_sql_mysql: Rows matched: 1  Changed: 1  Warnings: 1
+(12) sql: SQL query returned: success
+(12) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (1)
+(12)     [sql] = ok
+(12)     [exec] = noop
+(12) attr_filter.accounting_response: EXPAND %{User-Name}
+(12) attr_filter.accounting_response:    --> A10014
+(12) attr_filter.accounting_response: Matched entry DEFAULT at line 12
+(12)     [attr_filter.accounting_response] = updated
+(12)   } # accounting = updated
+(12) Sent Accounting-Response Id 4 from 172.16.10.10:1813 to 172.16.11.30:1646 length 20
+(12) Finished request
+(12) Cleaning up request packet ID 4 with timestamp +26 due to done
+Ready to process requests
+(13) Received Accounting-Request Id 5 from 172.16.11.30:1646 to 172.16.10.10:1813 length 249
+(13)   User-Name = "A10014"
+(13)   Cisco-AVPair = "audit-session-id=AC100B1E0000000D0040614C"
+(13)   Cisco-AVPair = "vlan-id=98"
+(13)   Cisco-AVPair = "method=dot1x"
+(13)   Called-Station-Id = "50-00-00-05-00-05"
+(13)   Calling-Station-Id = "00-0C-29-47-FF-FF"
+(13)   NAS-IP-Address = 172.16.11.30
+(13)   NAS-Port-Id = "GigabitEthernet1/1"
+(13)   NAS-Port-Type = Ethernet
+(13)   NAS-Port = 50101
+(13)   Acct-Session-Id = "00000002"
+(13)   Framed-IP-Address = 172.16.98.11
+(13)   Acct-Status-Type = Interim-Update
+(13)   Event-Timestamp = "Sep  9 2026 12:55:56 KST"
+(13)   Acct-Input-Octets = 34068
+(13)   Acct-Output-Octets = 10048
+(13)   Acct-Input-Packets = 286
+(13)   Acct-Output-Packets = 66
+(13)   Acct-Delay-Time = 3
+(13) # Executing section preacct from file /etc/freeradius/3.0/sites-enabled/default
+(13)   preacct {
+(13)     [preprocess] = ok
+(13)     policy acct_unique {
+(13)       update request {
+(13)         &Tmp-String-9 := "ai:"
+(13)       } # update request = noop
+(13)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i)) {
+(13)       EXPAND %{hex:&Class}
+(13)          --> 
+(13)       EXPAND ^%{hex:&Tmp-String-9}
+(13)          --> ^61693a
+(13)       if (("%{hex:&Class}" =~ /^%{hex:&Tmp-String-9}/) &&      ("%{string:&Class}" =~ /^ai:([0-9a-f]{32})/i))  -> FALSE
+(13)       else {
+(13)         update request {
+(13)           EXPAND %{md5:%{User-Name},%{Acct-Session-ID},%{%{NAS-IPv6-Address}:-%{NAS-IP-Address}},%{NAS-Identifier},%{NAS-Port-ID},%{NAS-Port}}
+(13)              --> 358a8ee3de647265918b38872dd9a558
+(13)           &Acct-Unique-Session-Id := 358a8ee3de647265918b38872dd9a558
+(13)         } # update request = noop
+(13)       } # else = noop
+(13)       update request {
+(13)         &Tmp-String-9 !* ANY
+(13)       } # update request = noop
+(13)     } # policy acct_unique = noop
+(13) suffix: Checking for suffix after "@"
+(13) suffix: No '@' in User-Name = "A10014", looking up realm NULL
+(13) suffix: No such realm "NULL"
+(13)     [suffix] = noop
+(13)     [files] = noop
+(13)   } # preacct = ok
+(13) # Executing section accounting from file /etc/freeradius/3.0/sites-enabled/default
+(13)   accounting {
+(13) detail: EXPAND /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d
+(13) detail:    --> /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(13) detail: /var/log/freeradius/radacct/%{%{Packet-Src-IP-Address}:-%{Packet-Src-IPv6-Address}}/detail-%Y%m%d expands to /var/log/freeradius/radacct/172.16.11.30/detail-20260909
+(13) detail: EXPAND %t
+(13) detail:    --> Wed Sep  9 12:56:14 2026
+(13)     [detail] = ok
+(13)     [unix] = noop
+(13) sql: EXPAND %{tolower:type.%{%{Acct-Status-Type}:-%{Request-Processing-Stage}}.query}
+(13) sql:    --> type.interim-update.query
+(13) sql: Using query template 'query'
+rlm_sql (sql): Reserved connection (6)
+(13) sql: EXPAND %{User-Name}
+(13) sql:    --> A10014
+(13) sql: SQL-User-Name set to 'A10014'
+(13) sql: EXPAND UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(%{%{integer:Event-Timestamp}:-%l}), acctinterval    = %{%{integer:Event-Timestamp}:-%l} - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '%{Framed-IP-Address}', framedipv6address = '%{Framed-IPv6-Address}', framedipv6prefix = '%{Framed-IPv6-Prefix}', framedinterfaceid = '%{Framed-Interface-Id}', delegatedipv6prefix = '%{Delegated-IPv6-Prefix}', acctsessiontime = %{%{Acct-Session-Time}:-NULL}, acctinputoctets = '%{%{Acct-Input-Gigawords}:-0}' << 32 | '%{%{Acct-Input-Octets}:-0}', acctoutputoctets = '%{%{Acct-Output-Gigawords}:-0}' << 32 | '%{%{Acct-Output-Octets}:-0}' WHERE AcctUniqueId = '%{Acct-Unique-Session-Id}'
+(13) sql:    --> UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926156), acctinterval    = 1788926156 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '172.16.98.11', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '34068', acctoutputoctets = '0' << 32 | '10048' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+(13) sql: Executing query: UPDATE radacct SET acctupdatetime  = (@acctupdatetime_old:=acctupdatetime), acctupdatetime  = FROM_UNIXTIME(1788926156), acctinterval    = 1788926156 - UNIX_TIMESTAMP(@acctupdatetime_old), framedipaddress = '172.16.98.11', framedipv6address = '', framedipv6prefix = '', framedinterfaceid = '', delegatedipv6prefix = '', acctsessiontime = NULL, acctinputoctets = '0' << 32 | '34068', acctoutputoctets = '0' << 32 | '10048' WHERE AcctUniqueId = '358a8ee3de647265918b38872dd9a558'
+rlm_sql_mysql: Rows matched: 1  Changed: 1  Warnings: 1
+(13) sql: SQL query returned: success
+(13) sql: 1 record(s) updated
+rlm_sql (sql): Released connection (6)
+(13)     [sql] = ok
+(13)     [exec] = noop
+(13) attr_filter.accounting_response: EXPAND %{User-Name}
+(13) attr_filter.accounting_response:    --> A10014
+(13) attr_filter.accounting_response: Matched entry DEFAULT at line 12
+(13)     [attr_filter.accounting_response] = updated
+(13)   } # accounting = updated
+(13) Sent Accounting-Response Id 5 from 172.16.10.10:1813 to 172.16.11.30:1646 length 20
+(13) Finished request
+(13) Cleaning up request packet ID 5 with timestamp +26 due to done
+Ready to process requests
